@@ -1,4 +1,4 @@
-﻿using EmailConsoleApp.Interfaces;
+﻿using MauiEmail.Model;
 using MailKit.Net.Imap;
 using MailKit.Security;
 using System;
@@ -8,8 +8,9 @@ using System.Net.Mail;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
+using MauiEmail.Model.Interfaces;
 
-namespace EmailConsoleApp
+namespace MauiEmail.Model
 {
     public class MailConfig : IMailConfig
     {

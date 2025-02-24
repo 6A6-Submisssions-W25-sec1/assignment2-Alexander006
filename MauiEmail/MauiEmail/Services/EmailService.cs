@@ -1,4 +1,4 @@
-﻿using EmailConsoleApp.Interfaces;
+﻿using MauiEmail.Model.Interfaces;
 using MailKit;
 using MailKit.Net.Imap;
 using MailKit.Net.Smtp;

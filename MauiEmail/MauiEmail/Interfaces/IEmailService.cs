@@ -1,11 +1,12 @@
-﻿using MimeKit;
+﻿using MauiEmail.Models;
+using MimeKit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EmailConsoleApp.Interfaces
+namespace MauiEmail.Model.Interfaces
 {
     public interface IEmailService
     {
@@ -19,5 +20,8 @@ namespace EmailConsoleApp.Interfaces
         Task SendMessageAsync(MimeMessage message);
         Task<IEnumerable<MimeMessage>> DownloadAllEmailsAsync();
         Task DeleteMessageAsync(int uid);
+
+        //Observable messages
+        Task<IEnumerable<ObservableMessage>?> FetchAllMessages();        
     }
 }
