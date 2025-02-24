@@ -14,7 +14,7 @@ using MimeKit;
 
 
 
-namespace EmailConsoleApp
+namespace MauiEmail.Services
 {
     public class EmailService : IEmailService
     {
@@ -27,11 +27,11 @@ namespace EmailConsoleApp
         /// Console email service app
         /// </summary>
         /// <param name="mailConfig">Current configurations of this service</param>
-        public EmailService(IMailConfig mailConfig) 
-        {       
+        public EmailService(IMailConfig mailConfig)
+        {
             this.mailConfig = mailConfig;
             imapClient = new ImapClient();
-            smtpClient = new SmtpClient();            
+            smtpClient = new SmtpClient();
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace EmailConsoleApp
         public async Task DeleteMessageAsync(int uid)
         {
             var folder = imapClient.Inbox;
-            
+
             try
             {
                 Console.WriteLine("Deleting email....");
@@ -57,7 +57,7 @@ namespace EmailConsoleApp
                 throw new Exception(e.Message);
             }
         }
-   
+
         /// <summary>
         /// Retrieves all the emails asynchronously
         /// </summary>
@@ -72,13 +72,13 @@ namespace EmailConsoleApp
 
             for (int i = 0; i < inbox.Count; i++)
             {
-                var message = await inbox.GetMessageAsync(i);                
+                var message = await inbox.GetMessageAsync(i);
                 messages.Add(message);
             }
-            
+
             return messages;
         }
-        
+
         /// <summary>
         /// Sends a message to the client
         /// </summary>
@@ -86,11 +86,11 @@ namespace EmailConsoleApp
         /// <returns></returns>
         /// <exception cref="Exception">Thrown when there were some issues with authentication</exception>
         public async Task SendMessageAsync(MimeMessage message)
-        {            
+        {
             try
             {
                 message.From.Add(new MailboxAddress("Vince McMahon", mailConfig.EmailAddress));
-                message.To.Add(new MailboxAddress("Vince Mctosh", mailConfig.EmailAddress));               
+                message.To.Add(new MailboxAddress("Vince Mctosh", mailConfig.EmailAddress));
 
                 if (smtpClient.IsConnected && smtpClient.IsAuthenticated)
                 {
@@ -101,13 +101,13 @@ namespace EmailConsoleApp
                 {
                     throw new Exception("Receipient authentication or connection failed!");
                 }
-                    
+
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
-               throw new Exception(ex.Message);
+                throw new Exception(ex.Message);
             }
-            
+
         }
 
         /// <summary>
@@ -127,7 +127,7 @@ namespace EmailConsoleApp
         {
             await imapClient.DisconnectAsync(true);
         }
-        
+
         /// <summary>
         /// Connect and authenticate receipiant 
         /// </summary>
@@ -136,14 +136,14 @@ namespace EmailConsoleApp
         {
             try
             {
-                await imapClient.ConnectAsync(mailConfig.ReceiveHost, mailConfig.ReceivePort,mailConfig.RecieveSocketOptions);                                
-                await imapClient.AuthenticateAsync(mailConfig.EmailAddress, mailConfig.Password); 
+                await imapClient.ConnectAsync(mailConfig.ReceiveHost, mailConfig.ReceivePort, mailConfig.RecieveSocketOptions);
+                await imapClient.AuthenticateAsync(mailConfig.EmailAddress, mailConfig.Password);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 throw new Exception($"IMAP connection error: {e.Message}");
             }
-                               
+
         }
 
         /// <summary>
@@ -154,13 +154,13 @@ namespace EmailConsoleApp
         {
             try
             {
-                await smtpClient.ConnectAsync(mailConfig.SendHost, mailConfig.SendPort, mailConfig.SendSocketOption);       
-                await smtpClient.AuthenticateAsync(mailConfig.EmailAddress, mailConfig.Password);       
+                await smtpClient.ConnectAsync(mailConfig.SendHost, mailConfig.SendPort, mailConfig.SendSocketOption);
+                await smtpClient.AuthenticateAsync(mailConfig.EmailAddress, mailConfig.Password);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 throw new Exception($"SMTP connection error: {e.Message}");
-            }                         
+            }
         }
     }
 }
