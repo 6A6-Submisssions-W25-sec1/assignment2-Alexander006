@@ -9,6 +9,7 @@ using System.Linq;
 using MailKit.Net.Imap;
 using MailKit.Net.Smtp;
 using MimeKit;
+using MauiEmail.Models;
 
 
 
@@ -40,7 +41,7 @@ namespace MauiEmail.Services
         /// <param name="uid">Uid of the email</param>
         /// <returns></returns>
         /// <exception cref="Exception">Thrown when any errors arise</exception>
-        public async Task DeleteMessageAsync(int uid)
+        public async Task DeleteMessageAsync(UniqueId uniqueId)
         {
             var folder = imapClient.Inbox;
 
@@ -49,7 +50,7 @@ namespace MauiEmail.Services
                 Console.WriteLine("Deleting email....");
                 await folder.OpenAsync(FolderAccess.ReadWrite);
 
-                await folder.StoreAsync(uid - 1, new StoreFlagsRequest(StoreAction.Add, MessageFlags.Deleted) { Silent = true });
+                await folder.StoreAsync((int)uniqueId.Id - 1, new StoreFlagsRequest(StoreAction.Add, MessageFlags.Deleted) { Silent = true });
                 await folder.ExpungeAsync();
             }
             catch (Exception e)
@@ -161,6 +162,11 @@ namespace MauiEmail.Services
             {
                 throw new Exception($"SMTP connection error: {e.Message}");
             }
+        }
+
+        public Task<IEnumerable<ObservableMessage>?> FetchAllMessages()
+        {
+            throw new NotImplementedException();
         }
     }
 }
