@@ -16,11 +16,12 @@ public partial class InboxPage : ContentPage
 	{
 		InitializeComponent();
 		_emailService = new EmailService(ConfigureMail());
-        BindingContext = this;
+
+        //EmailConnectionAndAuthentication();
 
         Task.Run(async ()=> { await EmailConnectionAndAuthentication(); });
-        Task.Run(async () => { await DownloadCurrentInbox(); });
-	}
+        BindingContext = this;
+    }
 
     public ObservableCollection<MimeMessage> Inbox
     {
@@ -37,7 +38,10 @@ public partial class InboxPage : ContentPage
 
     private async Task DownloadCurrentInbox()
     {
-         Inbox = (ObservableCollection<MimeMessage>)await _emailService.DownloadAllEmailsAsync();
+        var inboxes = await _emailService.DownloadAllEmailsAsync();
+
+        Inbox = new ObservableCollection<MimeMessage>(inboxes);
+
     }
 
 	private IMailConfig ConfigureMail()
@@ -65,30 +69,20 @@ public partial class InboxPage : ContentPage
         return mailConfig;
 	}
     
-    private async static Task EmailConnectionAndAuthentication()
-    {
-        Console.WriteLine("Connecting and Authenticating....");
+    private async Task EmailConnectionAndAuthentication()
+    {        
         try
         {
             await StartSession();
+            await DownloadCurrentInbox();
         }
         catch (Exception e)
         {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"\n-----CONNECTION AND AUTHENTICATION FAILED-----\n");
-            Thread.Sleep(2000);
-            Console.ForegroundColor = ConsoleColor.White;
             throw new Exception(e.Message);
         }
-
-        Console.ForegroundColor = ConsoleColor.DarkGreen;
-        Console.WriteLine("\n-----CONNECTION AND AUTHENTICATION SUCCESSFUL-----\n");
-        Thread.Sleep(1000);
-        Console.ForegroundColor = ConsoleColor.White;
-        Console.Clear();
     }
 
-    private async static Task StartSession()
+    private async Task StartSession()
     {
         try
         {
@@ -101,7 +95,7 @@ public partial class InboxPage : ContentPage
         }
     }
 
-    private async static Task TerminateSession()
+    private async Task TerminateSession()
     {
         await _emailService.DisconnectSendClientAsync();
         await _emailService.DisconnectRetreiveClientAsync();

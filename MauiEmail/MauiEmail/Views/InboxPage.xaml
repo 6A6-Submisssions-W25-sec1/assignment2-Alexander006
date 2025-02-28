@@ -9,14 +9,15 @@
         <CollectionView Margin="40,0,0,0" ItemsSource="{Binding Inbox}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <HorizontalStackLayout Margin="0,0,0,0">                      
-                        <Border  BackgroundColor="PapayaWhip" StrokeShape="RoundRectangle 10,10,10,10" Padding="5">
-                            <Label Text="{Binding  Inbox.Subject}" FontSize="Medium"/>
-                        </Border>
-                    </HorizontalStackLayout>
+                    <SwipeView>
+                        <HorizontalStackLayout Margin="0,0,0,0">
+                            <Border  BackgroundColor="Green" StrokeShape="RoundRectangle 10,10,10,10" Padding="5">
+                                <Label Text="{Binding Subject}" FontSize="Medium"/>
+                            </Border>
+                        </HorizontalStackLayout>
+                    </SwipeView>   
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-
     </VerticalStackLayout>
 </ContentPage>
