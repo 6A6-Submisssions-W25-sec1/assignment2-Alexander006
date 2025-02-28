@@ -5,7 +5,7 @@ namespace MauiEmail
     public partial class App : Application
     {
         //public static EmailConfig emailConfig;
-        //public static EmailService emailService;
+        //public static EmailService _emailService;
 
         public App()
         {

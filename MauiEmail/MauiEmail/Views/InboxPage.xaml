@@ -4,8 +4,19 @@
              x:Class="MauiEmail.Views.InboxPage"
              Title="InboxPage">
     <VerticalStackLayout>
-        <SearchBar Placeholder="Search mail" Margin="100,0,250,0">
+        <SearchBar Placeholder="Search mail" Margin="100,0,250,0"/>
 
-        </SearchBar>
+        <CollectionView Margin="40,0,0,0" ItemsSource="{Binding Inbox}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <HorizontalStackLayout Margin="0,0,0,0">                      
+                        <Border  BackgroundColor="PapayaWhip" StrokeShape="RoundRectangle 10,10,10,10" Padding="5">
+                            <Label Text="{Binding  Inbox.Subject}" FontSize="Medium"/>
+                        </Border>
+                    </HorizontalStackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
     </VerticalStackLayout>
 </ContentPage>

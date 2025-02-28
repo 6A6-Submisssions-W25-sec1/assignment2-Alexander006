@@ -36,7 +36,7 @@ namespace MauiEmail.Services
         }
 
         /// <summary>
-        /// Deletes a message from the user's inbox
+        /// Deletes a message from the user's _inbox
         /// </summary>
         /// <param name="uid">Uid of the email</param>
         /// <returns></returns>
