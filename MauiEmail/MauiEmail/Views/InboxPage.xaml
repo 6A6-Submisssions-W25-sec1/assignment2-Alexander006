@@ -4,9 +4,8 @@
              x:Class="MauiEmail.Views.InboxPage"
              Title="InboxPage">
     <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+        <SearchBar Placeholder="Search mail" Margin="100,0,250,0">
+
+        </SearchBar>
     </VerticalStackLayout>
 </ContentPage>

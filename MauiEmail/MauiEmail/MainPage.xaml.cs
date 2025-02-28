@@ -1,4 +1,6 @@
-﻿namespace MauiEmail
+﻿using MauiEmail.Views;
+
+namespace MauiEmail
 {
     public partial class MainPage : ContentPage
     {
@@ -7,6 +9,7 @@
         public MainPage()
         {
             InitializeComponent();
+            Navigation.PushAsync(new InboxPage());           
         }
 
         private void OnCounterClicked(object sender, EventArgs e)
