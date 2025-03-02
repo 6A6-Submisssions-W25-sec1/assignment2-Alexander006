@@ -68,6 +68,8 @@ namespace MauiEmail.Models
             return null;
         }
 
+
+
         public event PropertyChangedEventHandler? PropertyChanged;        
     }
 }

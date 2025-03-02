@@ -1,5 +1,4 @@
-﻿using MauiEmail.Model;
-using MailKit.Net.Imap;
+﻿using MailKit.Net.Imap;
 using MailKit.Security;
 using System;
 using System.Collections.Generic;
@@ -10,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MauiEmail.Model.Interfaces;
 
-namespace MauiEmail.Model
+namespace MauiEmail.Configs
 {
     public class MailConfig : IMailConfig
     {
@@ -28,9 +27,9 @@ namespace MauiEmail.Model
         public int SendPort { get; set; }
         public SecureSocketOptions SendSocketOption { get; set; }
         public string OAuth2ClientId { get; set; }
-        public string OAuth2ClientSecret { get ; set; }
-        public string OAuthRefreshToken { get ; set; }
-        public string SenderEmailAddress { get ; set; }
+        public string OAuth2ClientSecret { get; set; }
+        public string OAuthRefreshToken { get; set; }
+        public string SenderEmailAddress { get; set; }
         public string SenderPassword { get; set; }
     }
 }

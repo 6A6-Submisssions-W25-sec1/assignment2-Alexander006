@@ -1,7 +1,8 @@
 using MailKit.Security;
-using MauiEmail.Model;
+using MauiEmail.Models;
 using MauiEmail.Model.Interfaces;
 using MauiEmail.Services;
+using MauiEmail.Configs;
 using MimeKit;
 using System.Collections.ObjectModel;
 
@@ -11,13 +12,12 @@ public partial class InboxPage : ContentPage
 {
 	private static IEmailService _emailService;
     private ObservableCollection<MimeMessage> _inbox;
+    private List<ObservableMessage> _inbox2;
 
 	public InboxPage()
 	{
 		InitializeComponent();
 		_emailService = new EmailService(ConfigureMail());
-
-        //EmailConnectionAndAuthentication();
 
         Task.Run(async ()=> { await EmailConnectionAndAuthentication(); });
         BindingContext = this;
@@ -36,11 +36,19 @@ public partial class InboxPage : ContentPage
         }
     }
 
+    public List<ObservableMessage> Inbox2
+    {
+        get { return _inbox2; }
+        set { _inbox2 = value; }
+    }
+
     private async Task DownloadCurrentInbox()
     {
         var inboxes = await _emailService.DownloadAllEmailsAsync();
-
+        var inboxes2 = await _emailService.FetchAllMessages();
+        
         Inbox = new ObservableCollection<MimeMessage>(inboxes);
+        Inbox2 = new List<ObservableMessage>(inboxes2);
 
     }
 

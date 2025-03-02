@@ -69,7 +69,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Configs\" />
 	  <Folder Include="DataRepos\" />
 	  <Folder Include="Converters\" />
 	</ItemGroup>

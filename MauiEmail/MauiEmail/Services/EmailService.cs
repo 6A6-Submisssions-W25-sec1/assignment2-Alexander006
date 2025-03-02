@@ -164,9 +164,28 @@ namespace MauiEmail.Services
             }
         }
 
-        public Task<IEnumerable<ObservableMessage>?> FetchAllMessages()
+        public async Task<IEnumerable<ObservableMessage>?> FetchAllMessages()
         {
-            throw new NotImplementedException();
+            var messages = await DownloadAllEmailsAsync();
+
+            List<ObservableMessage> observableMessages = new List<ObservableMessage>();
+
+            var inbox = imapClient.Inbox;
+            await inbox.OpenAsync(FolderAccess.ReadOnly);
+            
+            //Get only the required items
+            var summaries = await inbox.FetchAsync(0, -1, MessageSummaryItems.UniqueId |
+                                               MessageSummaryItems.Envelope |
+                                               MessageSummaryItems.Flags |
+                                               MessageSummaryItems.InternalDate|
+                                               MessageSummaryItems.Body);
+
+            foreach(var summary in summaries)
+            {
+                observableMessages.Add(new ObservableMessage(summary));
+            }
+
+            return observableMessages;
         }
     }
 }
