@@ -9,16 +9,21 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <SwipeView>
-                        <Grid Margin="100,60,20,10">
+                        <Grid Margin="100,300,20,300">
                             <Grid.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
                             </Grid.GestureRecognizers>
-                            <Border BackgroundColor="WhiteSmoke" Padding="30" Stroke="Aquamarine" 
-                                        HorizontalOptions="FillAndExpand">
-                                <VerticalStackLayout HorizontalOptions="FillAndExpand">
-                                    <Label Text="{Binding Subject}" FontSize="Medium"/>
-                                    <Label Text="{Binding Body}" FontSize="Medium"  />
-                                </VerticalStackLayout>
+                            <Border BackgroundColor="WhiteSmoke" Padding="30" Stroke="Aquamarine" >
+
+                                <HorizontalStackLayout>
+                                    <VerticalStackLayout HorizontalOptions="FillAndExpand">
+                                        <Label Text="{Binding Subject}" FontSize="Medium"/>
+                                        <Label Text="{Binding Body}" FontSize="Medium"  />                                        
+                                    </VerticalStackLayout>
+                                    <Label Text="Favorite" FontSize="Small"  />
+                                </HorizontalStackLayout>
+
+                                
                             </Border>
                         </Grid>
                     </SwipeView>   
