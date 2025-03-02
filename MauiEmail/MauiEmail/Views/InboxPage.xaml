@@ -3,26 +3,25 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MauiEmail.Views.InboxPage"
              Title="InboxPage">
-
-    <ScrollView>
-        <VerticalStackLayout BackgroundColor="Transparent">
-            <SearchBar Placeholder="Search mail" Margin="100,0,250,0"/>
-            <CollectionView Margin="100,60,0,0" ItemsSource="{Binding Inbox}" Background="#e8e8e8">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <SwipeView>
-                            <HorizontalStackLayout Margin="0,5,0,0">
-                                <Border  BackgroundColor="WhiteSmoke" Padding="30">
-                                    <VerticalStackLayout>
-                                        <Label Text="{Binding Subject}" FontSize="Medium"/> 
-                                        <Label Text="{Binding Body}" FontSize="Medium"/>                                        
-                                    </VerticalStackLayout>
-                                </Border>
-                            </HorizontalStackLayout>
-                        </SwipeView>   
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-        </VerticalStackLayout>        
-    </ScrollView>
+    
+    <VerticalStackLayout BackgroundColor="Transparent">
+        <SearchBar Placeholder="Search mail" Margin="100,0,250,0"/>
+        <CollectionView Margin="100,60,20,10" ItemsSource="{Binding Inbox}" Background="#e8e8e8" HeightRequest="600">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <SwipeView>
+                        <Grid>                            
+                            <Border  BackgroundColor="WhiteSmoke" Padding="30" Stroke="Aquamarine" 
+                                        HorizontalOptions="FillAndExpand">
+                                <VerticalStackLayout HorizontalOptions="FillAndExpand">
+                                    <Label Text="{Binding Subject}" FontSize="Medium"/>
+                                    <Label Text="{Binding Body}" FontSize="Medium"  />                                        
+                                </VerticalStackLayout>
+                            </Border>                            
+                        </Grid>
+                    </SwipeView>   
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </VerticalStackLayout>        
 </ContentPage>
