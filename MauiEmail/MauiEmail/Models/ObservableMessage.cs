@@ -20,30 +20,47 @@ namespace MauiEmail.Models
         MailboxAddress From { get; set; }
         List<MailboxAddress> To { get; set; }
         bool IsRead { get; set; }
+        bool IsFavorite { get; set; }
 
 
         public ObservableMessage(IMessageSummary message)
         {
-            IsRead = (message.Flags == MessageFlags.Seen);
+            UniqueId = message.UniqueId;
+            Date = message.Date;
+            Subject = message.NormalizedSubject;
             Body = null;
             HtmlBody = null;
-            From = (MailboxAddress)message.Envelope.From[0];
-
+            From = (MailboxAddress)message.Envelope.From[0];            
+            //To = (MailboxAddress)message.Envelope.To;           
+            IsRead = (message.Flags == MessageFlags.Seen);
+            IsFavorite = false;
         }
 
         public ObservableMessage(MimeMessage mimeMessage, UniqueId uniqueId)
         {
             UniqueId = uniqueId;
-            IsRead = false;
-            Body = mimeMessage.Body.ToString();
-            HtmlBody = mimeMessage.HtmlBody;
             Date = mimeMessage.Date;
-            Subject = mimeMessage.Subject;           
+            Subject = mimeMessage.Subject;
+            Body = mimeMessage.Body.ToString();
+            From = (MailboxAddress)mimeMessage.From[0];
+            //To = (MailboxAddress)mimeMessage.To;
+            HtmlBody = mimeMessage.HtmlBody;
+            IsRead = false;
+            IsFavorite = false;
         }
 
-        public void ToMime()
+        /// <summary>
+        /// Converts ObservableMessage to Mime
+        /// </summary>
+        /// <returns>An instance of MimeMessage</returns>
+        public MimeMessage ToMime()
         {
-            
+            MimeMessage mimeMessage = new MimeMessage();
+            mimeMessage.Date = Date;
+            mimeMessage.Subject = Subject;
+            //mimeMessage.Body = Body as MimeEntity;
+            //mimeMessage.From = (MimeMessage)From;    
+            return mimeMessage;
         }
 
         public EmailMessage GetForward()
