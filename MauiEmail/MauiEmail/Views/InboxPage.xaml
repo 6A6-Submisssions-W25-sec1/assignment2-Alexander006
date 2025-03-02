@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MauiEmail.Views.InboxPage"
-             Title="InboxPage">
+             x:Class="MauiEmail.Views.InboxPage">
     
     <VerticalStackLayout BackgroundColor="Transparent">
         <SearchBar Placeholder="Search mail" Margin="100,0,250,0"/>
@@ -10,14 +9,17 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <SwipeView>
-                        <Grid>                            
-                            <Border  BackgroundColor="WhiteSmoke" Padding="30" Stroke="Aquamarine" 
+                        <Grid Margin="100,60,20,10">
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
+                            </Grid.GestureRecognizers>
+                            <Border BackgroundColor="WhiteSmoke" Padding="30" Stroke="Aquamarine" 
                                         HorizontalOptions="FillAndExpand">
                                 <VerticalStackLayout HorizontalOptions="FillAndExpand">
                                     <Label Text="{Binding Subject}" FontSize="Medium"/>
-                                    <Label Text="{Binding Body}" FontSize="Medium"  />                                        
+                                    <Label Text="{Binding Body}" FontSize="Medium"  />
                                 </VerticalStackLayout>
-                            </Border>                            
+                            </Border>
                         </Grid>
                     </SwipeView>   
                 </DataTemplate>

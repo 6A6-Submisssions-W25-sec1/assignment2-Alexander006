@@ -110,4 +110,9 @@ public partial class InboxPage : ContentPage
         Console.WriteLine("Logged out. Press any key to continue...");
         Console.ReadKey();
     }
+
+    private void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
+    {
+
+    }
 }
