@@ -10,6 +10,8 @@ namespace MauiEmail
         {
             InitializeComponent();
             Navigation.PushAsync(new InboxPage());           
+            
+            //Navigation.PushAsync(new ReadPage());           
         }
 
         private void OnCounterClicked(object sender, EventArgs e)

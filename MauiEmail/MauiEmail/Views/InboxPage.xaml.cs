@@ -115,4 +115,9 @@ public partial class InboxPage : ContentPage
     {
 
     }
+
+    private async void ViewMessage(ObservableMessage message)
+    {
+       //await Navigation.PushAsync(new ReadPage(message));
+    }
 }

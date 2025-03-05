@@ -10,20 +10,24 @@
                 <DataTemplate>
                     <SwipeView>
                         <Grid Margin="100,300,20,300">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            
                             <Grid.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
                             </Grid.GestureRecognizers>
-                            <Border BackgroundColor="WhiteSmoke" Padding="30" Stroke="Aquamarine" >
+                            <Border BackgroundColor="WhiteSmoke" Padding="30" Stroke="Aquamarine" Grid.ColumnSpan="3" >
 
                                 <HorizontalStackLayout>
                                     <VerticalStackLayout HorizontalOptions="FillAndExpand">
                                         <Label Text="{Binding Subject}" FontSize="Medium"/>
-                                        <Label Text="{Binding Body}" FontSize="Medium"  />                                        
+                                        <Label Text="{Binding Body}" FontSize="Medium"  />                                      
                                     </VerticalStackLayout>
-                                    <Label Text="Favorite" FontSize="Small"  />
+                                    <Label Text="Favorite" FontSize="Small" Grid.Column="3"/>
                                 </HorizontalStackLayout>
-
-                                
                             </Border>
                         </Grid>
                     </SwipeView>   
