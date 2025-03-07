@@ -91,8 +91,7 @@ namespace MauiEmail.Services
         {
             try
             {
-                message.From.Add(new MailboxAddress("Vince McMahon", mailConfig.EmailAddress));
-                message.To.Add(new MailboxAddress("Vince Mctosh", mailConfig.EmailAddress));
+                message.From.Add(new MailboxAddress("Vince McMahon", mailConfig.EmailAddress));                
 
                 if (smtpClient.IsConnected && smtpClient.IsAuthenticated)
                 {

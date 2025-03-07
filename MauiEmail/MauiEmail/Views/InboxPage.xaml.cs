@@ -71,7 +71,7 @@ public partial class InboxPage : ContentPage, INotifyPropertyChanged
         Inbox3 = new ObservableCollection<ObservableMessage>(inboxesObservableMessage);
     }
 
-	private IMailConfig ConfigureMail()
+	public static IMailConfig ConfigureMail()
 	{
 		IMailConfig mailConfig = new MailConfig();
         
@@ -143,6 +143,6 @@ public partial class InboxPage : ContentPage, INotifyPropertyChanged
 
     private async void Button_Clicked(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new WritePage());
+        await Navigation.PushAsync(new WritePage(_emailService));
     }
 }

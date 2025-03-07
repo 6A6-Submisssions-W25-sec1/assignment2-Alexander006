@@ -7,12 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MailKit;
+using MauiEmail.Model.Interfaces;
 
 namespace MauiEmail.Models
 {
     public class ObservableMessage : INotifyPropertyChanged
     {
-        public UniqueId UniqueId { get; set; }
+        private IMailConfig mailConfig;
+        public UniqueId? UniqueId { get; set; }
         public DateTimeOffset Date { get; set; }
         public string Subject { get; set; }
         public string Body { get; set; }
@@ -21,6 +23,14 @@ namespace MauiEmail.Models
         public List<MailboxAddress> To { get; set; }
         public bool IsRead { get; set; }
         public bool IsFavorite { get; set; }
+
+        public ObservableMessage(IMailConfig config) 
+        { 
+            mailConfig = config;
+            Date = DateTime.Now;
+            To = new List<MailboxAddress>();
+            From = new MailboxAddress("Vince McMahon", mailConfig.EmailAddress);
+        }
 
         public ObservableMessage(IMessageSummary message)
         {
@@ -58,10 +68,16 @@ namespace MauiEmail.Models
         public MimeMessage ToMime()
         {
             MimeMessage mimeMessage = new MimeMessage();
+            MailboxAddress address = new MailboxAddress(To.First().Name, To.First().Address);
             mimeMessage.Date = Date;
-            mimeMessage.Subject = Subject;
-            //mimeMessage.Body = Body as MimeEntity;
-            //mimeMessage.From = (MimeMessage)From;    
+            mimeMessage.Subject = Subject;            
+            mimeMessage.Body = new TextPart()
+            {
+                Text = Body
+            };            
+            mimeMessage.From.Add(From);
+            mimeMessage.To.Add(address);
+
             return mimeMessage;
         }
 
