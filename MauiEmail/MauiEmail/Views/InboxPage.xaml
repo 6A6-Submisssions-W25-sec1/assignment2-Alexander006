@@ -4,17 +4,15 @@
              x:Class="MauiEmail.Views.InboxPage">
     
     <VerticalStackLayout BackgroundColor="Transparent">
-        <SearchBar Placeholder="Search mail" Margin="100,0,250,0"/>
-        <CollectionView Margin="100,60,20,10" ItemsSource="{Binding Inbox3}" Background="{AppThemeBinding Dark=Black, Light=#e8e8e8}" HeightRequest="600">
+        <Label Text="Welcome To Our Email App!" HorizontalTextAlignment="Center" FontSize="Large"/>
+        <SearchBar Placeholder="Search mail" HorizontalTextAlignment="Start" HorizontalOptions="FillAndExpand" HeightRequest="30" Margin="100,0,20,0"/>
+        <Label Text="Inbox" HorizontalTextAlignment="Center" FontSize="Medium" Margin="0,15,0,0"/>
+      
+        <CollectionView Margin="100,30,20,10" ItemsSource="{Binding Inbox3}" Background="{AppThemeBinding Dark=Black, Light=#e8e8e8}" HeightRequest="600">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <SwipeView>
                         <Grid Margin="100,300,20,300">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
                             
                             <Grid.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
@@ -26,13 +24,13 @@
                                         <Label Text="{Binding Subject}" FontSize="Medium"/>
                                         <Label Text="{Binding Body}" FontSize="Medium"  />                                      
                                     </VerticalStackLayout>
-                                    <Label Text="Favorite" FontSize="Small" Grid.Column="3"/>
+                                    <Label Text="Favorite" FontSize="Small" HorizontalTextAlignment="End"/>
                                 </HorizontalStackLayout>
                             </Border>
                         </Grid>
                     </SwipeView>   
                 </DataTemplate>
             </CollectionView.ItemTemplate>
-        </CollectionView>
+        </CollectionView>        
     </VerticalStackLayout>        
 </ContentPage>

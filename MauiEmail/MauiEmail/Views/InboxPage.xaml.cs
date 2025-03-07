@@ -132,6 +132,7 @@ public partial class InboxPage : ContentPage, INotifyPropertyChanged
 
     private void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
     {
+
         ViewMessage(_inbox3[0]);
     }
 
