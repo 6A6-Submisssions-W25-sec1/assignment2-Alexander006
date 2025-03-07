@@ -3,17 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MauiEmail.Views.ReadPage"
              >
-    
-    
-    
-    <VerticalStackLayout>
-        <Label Text="{Binding Subject}"/>
-        <Label Text="{Binding From}"/>
-        <Label Text="{Binding To}"/>
-        <Label Text="{Binding Name}"/>
 
-        <Border Stroke="Aqua">
-            <Label Text="{Binding Body}"/>
-        </Border>
-    </VerticalStackLayout>
+    <VerticalStackLayout>
+        <Label Text="{Binding Subject, StringFormat='Subject: {0}'}" Margin="10,10,0,10" TextColor="Purple"/>
+        <BoxView HeightRequest="1" BackgroundColor="Black"/>
+        <Label Text="{Binding From, StringFormat='From: {0}'}" Margin="10,10,0,10" TextColor="Purple"/>
+        <BoxView HeightRequest="1" BackgroundColor="Black" />
+        <Label Text="{Binding To, StringFormat='To: {0}'}" Margin="10,10,0,10" TextColor="Purple"/>
+        <BoxView HeightRequest="1" BackgroundColor="Black"/>
+        <Label Text="{Binding Date, StringFormat='Date: {0}'}" Margin="10,10,0,10" TextColor="Purple"/>
+        <BoxView HeightRequest="1" BackgroundColor="Black"/>
+        <Label Text="{Binding Body}" Margin="10,15,0,0"/>    
+    </VerticalStackLayout>    
 </ContentPage>
