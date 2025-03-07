@@ -12,15 +12,15 @@ namespace MauiEmail.Models
 {
     public class ObservableMessage : INotifyPropertyChanged
     {
-        UniqueId UniqueId { get; set; }
-        DateTimeOffset Date { get; set; }
-        string Subject { get; set; }
-        string Body { get; set; }
-        string HtmlBody { get; set; }
-        MailboxAddress From { get; set; }
-        List<MailboxAddress> To { get; set; }
-        bool IsRead { get; set; }
-        bool IsFavorite { get; set; }
+        public UniqueId UniqueId { get; set; }
+        public DateTimeOffset Date { get; set; }
+        public string Subject { get; set; }
+        public string Body { get; set; }
+        public string HtmlBody { get; set; }
+        public MailboxAddress From { get; set; }
+        public List<MailboxAddress> To { get; set; }
+        public bool IsRead { get; set; }
+        public bool IsFavorite { get; set; }
 
         public ObservableMessage(IMessageSummary message)
         {

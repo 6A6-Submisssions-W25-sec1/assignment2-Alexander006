@@ -1,14 +1,15 @@
 using MailKit.Security;
-using MauiEmail.Models;
-using MauiEmail.Model.Interfaces;
-using MauiEmail.Services;
 using MauiEmail.Configs;
+using MauiEmail.Model.Interfaces;
+using MauiEmail.Models;
+using MauiEmail.Services;
 using MimeKit;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace MauiEmail.Views;
 
-public partial class InboxPage : ContentPage
+public partial class InboxPage : ContentPage, INotifyPropertyChanged
 {
     private IEmailService _emailService;
     private ObservableMessage _observableMessage;
@@ -19,10 +20,9 @@ public partial class InboxPage : ContentPage
 	public InboxPage()
 	{
 		InitializeComponent();
-        _emailService = new EmailService(ConfigureMail());
-        var emails = _emailService.FetchAllMessages();       
-        Task.Run(async ()=> { await EmailConnectionAndAuthentication(); });        
-        BindingContext = this;       
+        _emailService = new EmailService(ConfigureMail());       
+        Task.Run(async ()=> { await EmailConnectionAndAuthentication(); });
+        BindingContext = this;
     }
 
     public ObservableCollection<MimeMessage> Inbox
@@ -33,21 +33,32 @@ public partial class InboxPage : ContentPage
         }
         set 
         { 
-            _inbox = value;
-            OnPropertyChanged(nameof(Inbox));
+            _inbox = value;           
         }
     }
 
     public List<ObservableMessage> Inbox2
     {
-        get { return _inbox2; }
-        set { _inbox2 = value; }
+        get 
+        { 
+            return _inbox2; 
+        }
+        set 
+        { 
+            _inbox2 = value;        
+        }
     }
 
     public ObservableCollection<ObservableMessage> Inbox3
     {
-        get { return _inbox3; }
-        set { _inbox3 = value; }
+        get 
+        {             
+            return _inbox3;        
+        }
+        set 
+        { 
+            _inbox3 = value; 
+        }
     }
 
     private async Task DownloadCurrentInbox()

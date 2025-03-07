@@ -10,6 +10,7 @@ using MailKit.Net.Imap;
 using MailKit.Net.Smtp;
 using MimeKit;
 using MauiEmail.Models;
+using System.Collections.ObjectModel;
 
 
 
@@ -169,6 +170,7 @@ namespace MauiEmail.Services
             var messages = await DownloadAllEmailsAsync();
 
             List<ObservableMessage> observableMessages = new List<ObservableMessage>();
+            ObservableCollection<ObservableMessage> observableMessages2 = new ObservableCollection<ObservableMessage>();
 
             var inbox = imapClient.Inbox;
             await inbox.OpenAsync(FolderAccess.ReadOnly);
@@ -180,12 +182,13 @@ namespace MauiEmail.Services
                                                MessageSummaryItems.InternalDate|
                                                MessageSummaryItems.Body | MessageSummaryItems.PreviewText);
 
-            foreach(var summary in summaries)
+            foreach(IMessageSummary summary in summaries)
             {
                 observableMessages.Add(new ObservableMessage(summary));
+                observableMessages2.Add(new ObservableMessage(summary));
             }
 
-            return observableMessages;
+            return observableMessages2;
         }
     }
 }
