@@ -140,4 +140,9 @@ public partial class InboxPage : ContentPage, INotifyPropertyChanged
     {
        await Navigation.PushAsync(new ReadPage(message));
     }
+
+    private async void Button_Clicked(object sender, EventArgs e)
+    {
+        await Navigation.PushAsync(new WritePage());
+    }
 }

@@ -6,14 +6,14 @@
     <VerticalStackLayout BackgroundColor="Transparent">
         <Label Text="Welcome To Our Email App!" HorizontalTextAlignment="Center" FontSize="Large"/>
         <SearchBar Placeholder="Search mail" HorizontalTextAlignment="Start" HorizontalOptions="FillAndExpand" HeightRequest="30" Margin="100,0,20,0"/>
+        <Button Text="Compose" Clicked="Button_Clicked" HorizontalOptions="Start"/>        
         <Label Text="Inbox" HorizontalTextAlignment="Center" FontSize="Medium" Margin="0,15,0,0"/>
-      
         <CollectionView Margin="100,30,20,10" ItemsSource="{Binding Inbox3}" Background="{AppThemeBinding Dark=Black, Light=#e8e8e8}" HeightRequest="600">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <SwipeView>
                         <Grid Margin="100,300,20,300">
-                            
+
                             <Grid.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
                             </Grid.GestureRecognizers>
@@ -22,15 +22,16 @@
                                 <HorizontalStackLayout>
                                     <VerticalStackLayout HorizontalOptions="FillAndExpand">
                                         <Label Text="{Binding Subject}" FontSize="Medium"/>
-                                        <Label Text="{Binding Body}" FontSize="Medium"  />                                      
+                                        <Label Text="{Binding Body}" FontSize="Medium"  />
                                     </VerticalStackLayout>
                                     <Label Text="Favorite" FontSize="Small" HorizontalTextAlignment="End"/>
                                 </HorizontalStackLayout>
                             </Border>
                         </Grid>
-                    </SwipeView>   
+                    </SwipeView>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
-        </CollectionView>        
+        </CollectionView>
+
     </VerticalStackLayout>        
 </ContentPage>
