@@ -1,15 +1,21 @@
+using MailKit.Security;
 using MauiEmail.Models;
+using MauiEmail.Model.Interfaces;
+using MauiEmail.Services;
+using MauiEmail.Configs;
+using MimeKit;
+using System.Collections.ObjectModel;
 
 namespace MauiEmail.Views;
 
-public partial class ReadPage : ContentView
+public partial class ReadPage : ContentPage
 {
-	private ObservableMessage _observableMessage { get; set; }
+    private ObservableMessage _observableMessage { get; set; }
 
-	public ReadPage(ObservableMessage observableMessage = null)
+    public ReadPage(ObservableMessage message)
 	{
 		InitializeComponent();
-		BindingContext = observableMessage;
-	}
-
+        _observableMessage = message;
+        BindingContext = _observableMessage;
+    }
 }

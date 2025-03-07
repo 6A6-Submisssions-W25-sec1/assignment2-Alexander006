@@ -14,6 +14,7 @@ public partial class InboxPage : ContentPage
     private ObservableMessage _observableMessage;
     private ObservableCollection<MimeMessage> _inbox;
     private List<ObservableMessage> _inbox2;
+    private ObservableCollection<ObservableMessage> _inbox3;
 
 	public InboxPage()
 	{
@@ -43,13 +44,20 @@ public partial class InboxPage : ContentPage
         set { _inbox2 = value; }
     }
 
+    public ObservableCollection<ObservableMessage> Inbox3
+    {
+        get { return _inbox3; }
+        set { _inbox3 = value; }
+    }
+
     private async Task DownloadCurrentInbox()
     {
         var inboxes = await _emailService.DownloadAllEmailsAsync();
-        var inboxes2 = await _emailService.FetchAllMessages();
+        var inboxesObservableMessage = await _emailService.FetchAllMessages();
         
         Inbox = new ObservableCollection<MimeMessage>(inboxes);
-        Inbox2 = new List<ObservableMessage>(inboxes2);
+        Inbox2 = new List<ObservableMessage>(inboxesObservableMessage);
+        Inbox3 = new ObservableCollection<ObservableMessage>(inboxesObservableMessage);
     }
 
 	private IMailConfig ConfigureMail()
@@ -113,11 +121,11 @@ public partial class InboxPage : ContentPage
 
     private void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
     {
-
+        ViewMessage(_inbox3[0]);
     }
 
     private async void ViewMessage(ObservableMessage message)
     {
-       //await Navigation.PushAsync(new ReadPage(message));
+       await Navigation.PushAsync(new ReadPage(message));
     }
 }

@@ -1,6 +1,6 @@
 namespace MauiEmail.Views;
 
-public partial class WritePage : ContentView
+public partial class WritePage : ContentPage
 {
 	public WritePage()
 	{

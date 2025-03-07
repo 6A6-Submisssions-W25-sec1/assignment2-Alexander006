@@ -22,7 +22,6 @@ namespace MauiEmail.Models
         bool IsRead { get; set; }
         bool IsFavorite { get; set; }
 
-
         public ObservableMessage(IMessageSummary message)
         {
             UniqueId = message.UniqueId;
@@ -50,6 +49,8 @@ namespace MauiEmail.Models
             IsFavorite = false;
         }
 
+        public event PropertyChangedEventHandler? PropertyChanged;
+
         /// <summary>
         /// Converts ObservableMessage to Mime
         /// </summary>
@@ -67,8 +68,6 @@ namespace MauiEmail.Models
         public EmailMessage GetForward()
         {
             return null;
-        }
-
-        public event PropertyChangedEventHandler? PropertyChanged;        
+        }       
     }
 }
