@@ -5,7 +5,7 @@
     
     <VerticalStackLayout BackgroundColor="Transparent">
         <SearchBar Placeholder="Search mail" Margin="100,0,250,0"/>
-        <CollectionView Margin="100,60,20,10" ItemsSource="{Binding Inbox}" Background="#e8e8e8" HeightRequest="600">
+        <CollectionView Margin="100,60,20,10" ItemsSource="{Binding Inbox2}" Background="{AppThemeBinding Dark=Black, Light=#e8e8e8}" HeightRequest="600">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <SwipeView>
@@ -19,7 +19,7 @@
                             <Grid.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
                             </Grid.GestureRecognizers>
-                            <Border BackgroundColor="WhiteSmoke" Padding="30" Stroke="Aquamarine" Grid.ColumnSpan="3" >
+                            <Border BackgroundColor="{AppThemeBinding Dark=#333333, Light=WhiteSmoke}" Padding="30" Stroke="Aquamarine" Grid.ColumnSpan="3" >
 
                                 <HorizontalStackLayout>
                                     <VerticalStackLayout HorizontalOptions="FillAndExpand">

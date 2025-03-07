@@ -178,7 +178,7 @@ namespace MauiEmail.Services
                                                MessageSummaryItems.Envelope |
                                                MessageSummaryItems.Flags |
                                                MessageSummaryItems.InternalDate|
-                                               MessageSummaryItems.Body);
+                                               MessageSummaryItems.Body | MessageSummaryItems.PreviewText);
 
             foreach(var summary in summaries)
             {

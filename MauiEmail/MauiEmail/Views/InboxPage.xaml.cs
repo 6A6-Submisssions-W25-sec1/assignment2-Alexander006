@@ -10,17 +10,18 @@ namespace MauiEmail.Views;
 
 public partial class InboxPage : ContentPage
 {
-	private static IEmailService _emailService;
+    private IEmailService _emailService;
+    private ObservableMessage _observableMessage;
     private ObservableCollection<MimeMessage> _inbox;
     private List<ObservableMessage> _inbox2;
 
 	public InboxPage()
 	{
 		InitializeComponent();
-		_emailService = new EmailService(ConfigureMail());
-
-        Task.Run(async ()=> { await EmailConnectionAndAuthentication(); });
-        BindingContext = this;
+        _emailService = new EmailService(ConfigureMail());
+        var emails = _emailService.FetchAllMessages();       
+        Task.Run(async ()=> { await EmailConnectionAndAuthentication(); });        
+        BindingContext = this;       
     }
 
     public ObservableCollection<MimeMessage> Inbox
@@ -49,7 +50,6 @@ public partial class InboxPage : ContentPage
         
         Inbox = new ObservableCollection<MimeMessage>(inboxes);
         Inbox2 = new List<ObservableMessage>(inboxes2);
-
     }
 
 	private IMailConfig ConfigureMail()

@@ -28,8 +28,8 @@ namespace MauiEmail.Models
             UniqueId = message.UniqueId;
             Date = message.Date;
             Subject = message.NormalizedSubject;
-            Body = null;
-            HtmlBody = null;
+            Body = message.PreviewText;
+            //HtmlBody = message.HtmlBody.ToString();
             From = (MailboxAddress)message.Envelope.From[0];            
             //To = (MailboxAddress)message.Envelope.To;           
             IsRead = (message.Flags == MessageFlags.Seen);
@@ -42,6 +42,7 @@ namespace MauiEmail.Models
             Date = mimeMessage.Date;
             Subject = mimeMessage.Subject;
             Body = mimeMessage.Body.ToString();
+            //HtmlBody = mimeMessage.HtmlBody.ToString();
             From = (MailboxAddress)mimeMessage.From[0];
             //To = (MailboxAddress)mimeMessage.To;
             HtmlBody = mimeMessage.HtmlBody;
@@ -67,8 +68,6 @@ namespace MauiEmail.Models
         {
             return null;
         }
-
-
 
         public event PropertyChangedEventHandler? PropertyChanged;        
     }

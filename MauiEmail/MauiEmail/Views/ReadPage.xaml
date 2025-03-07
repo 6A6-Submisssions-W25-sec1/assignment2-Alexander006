@@ -4,6 +4,8 @@
              x:Class="MauiEmail.Views.ReadPage">
     <VerticalStackLayout>
         <Label Text="{Binding Subject}"/>
+        <Label Text="{Binding From}"/>
+        <Label Text="{Binding To}"/>
         <Label Text="{Binding Name}"/>
 
         <Border Stroke="Aqua">
