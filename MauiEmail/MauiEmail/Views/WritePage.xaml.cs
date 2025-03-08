@@ -37,8 +37,29 @@ public partial class WritePage : ContentPage
     {
         _observableMessage.To.Add(new MailboxAddress("Vince McTosh", emailAddress));
         MimeMessage msg = _observableMessage.ToMime();
+        //await SendAndRetrieveClientStartSession();
         await _emailService.SendMessageAsync(msg);
+        //await SendAndRetrieveClientDisconnect();
         await DisplayAlert("Email sent", $"Your email has been sent!", "Ok");
         await Navigation.PopAsync();
+    }
+
+    private async Task SendAndRetrieveClientStartSession()
+    {
+        try
+        {
+            await _emailService.StartSendClientAsync();
+            await _emailService.StartRetreiveClientAsync();
+        }
+        catch (Exception e)
+        {
+            throw new Exception($"IMAP or SMTP client connection failed.\n\nDetails: {e.Message}");
+        }
+    }
+
+    private async Task SendAndRetrieveClientDisconnect()
+    {
+        await _emailService.DisconnectSendClientAsync();
+        await _emailService.DisconnectRetreiveClientAsync();
     }
 }

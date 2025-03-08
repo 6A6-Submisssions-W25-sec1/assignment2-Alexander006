@@ -12,52 +12,27 @@ namespace MauiEmail.Views;
 public partial class InboxPage : ContentPage, INotifyPropertyChanged
 {
     private IEmailService _emailService;
-    private ObservableMessage _observableMessage;
-    private ObservableCollection<MimeMessage> _inbox;
-    private List<ObservableMessage> _inbox2;
-    private ObservableCollection<ObservableMessage> _inbox3;
+    private ObservableCollection<ObservableMessage> _inbox;
 
 	public InboxPage()
 	{
 		InitializeComponent();
         _emailService = new EmailService(ConfigureMail());       
-        Task.Run(async ()=> { await EmailConnectionAndAuthentication(); });
+        Task.Run(async ()=> { await AuthenticateBothClients(); });
+        //Task.Run(async ()=> { await UpdateInbox(); });
         BindingContext = this;
     }
 
-    public ObservableCollection<MimeMessage> Inbox
-    {
-        get
-        {
-            return _inbox;
-        }
-        set 
-        { 
-            _inbox = value;           
-        }
-    }
 
-    public List<ObservableMessage> Inbox2
-    {
-        get 
-        { 
-            return _inbox2; 
-        }
-        set 
-        { 
-            _inbox2 = value;        
-        }
-    }
-
-    public ObservableCollection<ObservableMessage> Inbox3
+    public ObservableCollection<ObservableMessage> Inbox
     {
         get 
         {             
-            return _inbox3;        
+            return _inbox;        
         }
         set 
         { 
-            _inbox3 = value; 
+            _inbox = value; 
         }
     }
 
@@ -65,10 +40,7 @@ public partial class InboxPage : ContentPage, INotifyPropertyChanged
     {
         var inboxes = await _emailService.DownloadAllEmailsAsync();
         var inboxesObservableMessage = await _emailService.FetchAllMessages();
-        
-        Inbox = new ObservableCollection<MimeMessage>(inboxes);
-        Inbox2 = new List<ObservableMessage>(inboxesObservableMessage);
-        Inbox3 = new ObservableCollection<ObservableMessage>(inboxesObservableMessage);
+        Inbox = new ObservableCollection<ObservableMessage>(inboxesObservableMessage);
     }
 
 	public static IMailConfig ConfigureMail()
@@ -95,21 +67,22 @@ public partial class InboxPage : ContentPage, INotifyPropertyChanged
 
         return mailConfig;
 	}
-    
-    private async Task EmailConnectionAndAuthentication()
-    {        
+
+    public async Task AuthenticateBothClients()
+    {
         try
         {
-            await StartSession();
+            await SendAndRetrieveClientStartSession();
             await DownloadCurrentInbox();
+            //await SendAndRetrieveClientDisconnect();
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            throw new Exception(e.Message);
+            await DisplayAlert("Error", $"There was an error. Please try again later.", "Ok");
         }
     }
 
-    private async Task StartSession()
+    private async Task SendAndRetrieveClientStartSession()
     {
         try
         {
@@ -122,12 +95,10 @@ public partial class InboxPage : ContentPage, INotifyPropertyChanged
         }
     }
 
-    private async Task TerminateSession()
+    private async Task SendAndRetrieveClientDisconnect()
     {
         await _emailService.DisconnectSendClientAsync();
         await _emailService.DisconnectRetreiveClientAsync();
-        Console.WriteLine("Logged out. Press any key to continue...");
-        Console.ReadKey();
     }
 
     private void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
@@ -148,6 +119,6 @@ public partial class InboxPage : ContentPage, INotifyPropertyChanged
 
     private async void Button_Clicked(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new WritePage(_emailService));
+        await Navigation.PushAsync(new WritePage(_emailService));       
     }
 }
