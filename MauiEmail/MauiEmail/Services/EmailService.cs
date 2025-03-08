@@ -94,15 +94,13 @@ namespace MauiEmail.Services
                 message.From.Add(new MailboxAddress("Vince McMahon", mailConfig.EmailAddress));                
 
                 if (smtpClient.IsConnected && smtpClient.IsAuthenticated)
-                {
-                    Console.WriteLine("Sending Email....");
+                {                    
                     await smtpClient.SendAsync(message);
                 }
                 else
                 {
                     throw new Exception("Receipient authentication or connection failed!");
                 }
-
             }
             catch (Exception ex)
             {

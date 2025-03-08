@@ -132,8 +132,13 @@ public partial class InboxPage : ContentPage, INotifyPropertyChanged
 
     private void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
     {
+        if (sender is Grid)
+        {
+            Grid details = sender as Grid;
+            ObservableMessage email = (ObservableMessage) details.BindingContext ;
 
-        ViewMessage(_inbox3[0]);
+            ViewMessage(email);
+        }
     }
 
     private async void ViewMessage(ObservableMessage message)
