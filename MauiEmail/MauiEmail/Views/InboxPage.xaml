@@ -12,26 +12,49 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <SwipeView>
-                        <Grid Margin="100,300,20,300">
+                        <SwipeView.RightItems>
+                            <!-- Favorite Swipe Item -->
+                            <SwipeItem Text="Favorite" 
+                                    BackgroundColor="Orange" 
+                                    Invoked="Favorite_SwipeItem_Invoked">
+                                <SwipeItem.IconImageSource>
+                                    <FontImageSource Glyph="★" FontFamily="FontAwesome" Size="20"/>
+                                </SwipeItem.IconImageSource>
+                            </SwipeItem>
 
-                            <Grid.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
-                            </Grid.GestureRecognizers>
+                            <!-- Delete Swipe Item -->
+                            <SwipeItem Text="Delete" 
+                               BackgroundColor="Red" 
+                               Invoked="Delete_SwipeItem_Invoked">
+                                <SwipeItem.IconImageSource>
+                                    <FontImageSource Glyph="🗑" FontFamily="FontAwesome" Size="20"/>
+                                </SwipeItem.IconImageSource>
+                            </SwipeItem>
+
+                        </SwipeView.RightItems>
+
+
+                        <SwipeView.Content>
                             <Border BackgroundColor="{AppThemeBinding Dark=#333333, Light=WhiteSmoke}" Padding="30" Stroke="Aquamarine" Grid.ColumnSpan="3" >
-
-                                <HorizontalStackLayout>
-                                    <VerticalStackLayout HorizontalOptions="FillAndExpand">
-                                        <Label Text="{Binding Subject}" FontSize="Medium"/>
-                                        <Label Text="{Binding Body}" FontSize="Medium"  />
-                                    </VerticalStackLayout>
-                                    <Label Text="Favorite" FontSize="Small" HorizontalTextAlignment="End"/>
-                                </HorizontalStackLayout>
+                                <Grid>
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
+                                    </Grid.GestureRecognizers>                               
+                                
+                                    <HorizontalStackLayout>
+                                        <VerticalStackLayout HorizontalOptions="FillAndExpand">
+                                            <Label Text="{Binding Subject}" FontSize="Medium"/>
+                                            <Label Text="{Binding Body}" FontSize="Medium"  />
+                                        </VerticalStackLayout>
+                                        <Label Text="Favorite" FontSize="Small" HorizontalTextAlignment="End"/>
+                                    </HorizontalStackLayout>
+                                </Grid>
                             </Border>
-                        </Grid>
+                                                            
+                        </SwipeView.Content>
                     </SwipeView>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-
     </VerticalStackLayout>        
 </ContentPage>

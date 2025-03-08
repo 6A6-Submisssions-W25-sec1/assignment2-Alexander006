@@ -60,8 +60,6 @@ namespace MauiEmail.Services
             }
         }
 
-
-
         /// <summary>
         /// Sends a message to the client
         /// </summary>
@@ -189,11 +187,19 @@ namespace MauiEmail.Services
             return observableMessages;
         }
 
-        public async void MarkRead()
+        /// <summary>
+        /// Marks an email read
+        /// </summary>
+        /// <param name="uniqueId"></param>
+        public void MarkRead(UniqueId uniqueId)
         {
-
+            var folder = imapClient.Inbox;
+            folder.StoreAsync(uniqueId, new StoreFlagsRequest(StoreAction.Add, MessageFlags.Seen) { Silent = true });
         }
 
+        /// <summary>
+        /// Marks an email as their favorites
+        /// </summary>
         public async void MarkFavorite()
         {
 

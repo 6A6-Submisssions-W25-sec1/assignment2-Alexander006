@@ -17,10 +17,16 @@ public partial class InboxPage : ContentPage, INotifyPropertyChanged
 	public InboxPage()
 	{
 		InitializeComponent();
-        _emailService = new EmailService(ConfigureMail());       
-        Task.Run(async ()=> { await AuthenticateBothClients(); });
-        //Task.Run(async ()=> { await UpdateInbox(); });
-        BindingContext = this;
+        try
+        {
+            _emailService = new EmailService(ConfigureMail());
+            Task.Run(async () => { await AuthenticateBothClients(); });           
+            BindingContext = this;
+        }
+        catch
+        {
+            DisplayAlert("App Error", "There was a problem. Please try again This app will now close.","Ok");            
+        }
     }
 
     public ObservableCollection<ObservableMessage> Inbox
@@ -118,5 +124,15 @@ public partial class InboxPage : ContentPage, INotifyPropertyChanged
     private async void Button_Clicked(object sender, EventArgs e)
     {
         await Navigation.PushAsync(new WritePage(_emailService));       
+    }
+
+    private void Favorite_SwipeItem_Invoked(object sender, EventArgs e)
+    {
+
+    }
+
+    private void Delete_SwipeItem_Invoked(object sender, EventArgs e)
+    {
+
     }
 }
