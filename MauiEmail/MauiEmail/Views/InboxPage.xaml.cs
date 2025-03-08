@@ -23,7 +23,6 @@ public partial class InboxPage : ContentPage, INotifyPropertyChanged
         BindingContext = this;
     }
 
-
     public ObservableCollection<ObservableMessage> Inbox
     {
         get 

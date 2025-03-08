@@ -11,14 +11,18 @@ using MauiEmail.Model.Interfaces;
 
 namespace MauiEmail.Models
 {
+    /// <summary>
+    /// Serves to alleviate unnecessary operations and improves 
+    /// performance on rendering an email on the View
+    /// </summary>
     public class ObservableMessage : INotifyPropertyChanged
     {
         private IMailConfig mailConfig;
         public UniqueId? UniqueId { get; set; }
         public DateTimeOffset Date { get; set; }
         public string Subject { get; set; }
-        public string Body { get; set; }
-        public string HtmlBody { get; set; }
+        public string? Body { get; set; }
+        public string? HtmlBody { get; set; }
         public MailboxAddress From { get; set; }
         public List<MailboxAddress> To { get; set; }
         public bool IsRead { get; set; }
@@ -38,9 +42,9 @@ namespace MauiEmail.Models
             Date = message.Date;
             Subject = message.NormalizedSubject;
             Body = message.PreviewText;
-            //HtmlBody = message.HtmlBody.ToString();
+            HtmlBody = message.HtmlBody?.ToString();
             From = (MailboxAddress)message.Envelope.From[0];            
-            //To = (MailboxAddress)message.Envelope.To;           
+            To = (List<MailboxAddress>) message.Envelope.To.Mailboxes;
             IsRead = (message.Flags == MessageFlags.Seen);
             IsFavorite = false;
         }
@@ -50,10 +54,10 @@ namespace MauiEmail.Models
             UniqueId = uniqueId;
             Date = mimeMessage.Date;
             Subject = mimeMessage.Subject;
-            Body = mimeMessage.Body.ToString();
-            //HtmlBody = mimeMessage.HtmlBody.ToString();
+            Body = mimeMessage.Body?.ToString();
+            HtmlBody = mimeMessage.HtmlBody?.ToString();
             From = (MailboxAddress)mimeMessage.From[0];
-            //To = (MailboxAddress)mimeMessage.To;
+            To = (List<MailboxAddress>)mimeMessage.To.Mailboxes;
             HtmlBody = mimeMessage.HtmlBody;
             IsRead = false;
             IsFavorite = false;
