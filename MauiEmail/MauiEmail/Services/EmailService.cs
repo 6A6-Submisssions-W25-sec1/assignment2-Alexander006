@@ -60,26 +60,7 @@ namespace MauiEmail.Services
             }
         }
 
-        /// <summary>
-        /// Retrieves all the emails asynchronously
-        /// </summary>
-        /// <returns></returns>
-        public async Task<IEnumerable<MimeMessage>> DownloadAllEmailsAsync()
-        {
-            List<MimeMessage> messages = new List<MimeMessage>();
 
-            var inbox = imapClient.Inbox;
-            await inbox.OpenAsync(FolderAccess.ReadOnly);
-
-
-            for (int i = 0; i < inbox.Count; i++)
-            {
-                var message = await inbox.GetMessageAsync(i);
-                messages.Add(message);
-            }
-
-            return messages;
-        }
 
         /// <summary>
         /// Sends a message to the client
@@ -162,12 +143,30 @@ namespace MauiEmail.Services
             }
         }
 
-        public async Task<IEnumerable<ObservableMessage>?> FetchAllMessages()
+        /// <summary>
+        /// Retrieves all the emails asynchronously
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IEnumerable<MimeMessage>> DownloadAllEmailsAsync()
         {
-            var messages = await DownloadAllEmailsAsync();
+            List<MimeMessage> messages = new List<MimeMessage>();
 
-            List<ObservableMessage> observableMessages = new List<ObservableMessage>();
-            ObservableCollection<ObservableMessage> observableMessages2 = new ObservableCollection<ObservableMessage>();
+            var inbox = imapClient.Inbox;
+            await inbox.OpenAsync(FolderAccess.ReadOnly);
+
+
+            for (int i = 0; i < inbox.Count; i++)
+            {
+                var message = await inbox.GetMessageAsync(i);
+                messages.Add(message);
+            }
+
+            return messages;
+        }
+
+        public async Task<IEnumerable<ObservableMessage>?> FetchAllMessages()
+        {            
+            ObservableCollection<ObservableMessage> observableMessages = new ObservableCollection<ObservableMessage>();
 
             var inbox = imapClient.Inbox;
             await inbox.OpenAsync(FolderAccess.ReadOnly);
@@ -177,15 +176,27 @@ namespace MauiEmail.Services
                                                MessageSummaryItems.Envelope |
                                                MessageSummaryItems.Flags |
                                                MessageSummaryItems.InternalDate|
-                                               MessageSummaryItems.Body | MessageSummaryItems.PreviewText);
+                                               MessageSummaryItems.Body |
+                                               MessageSummaryItems.PreviewText
+                                               );
 
+                        
             foreach(IMessageSummary summary in summaries)
-            {
+            {  
                 observableMessages.Add(new ObservableMessage(summary));
-                observableMessages2.Add(new ObservableMessage(summary));
             }
 
-            return observableMessages2;
+            return observableMessages;
+        }
+
+        public async void MarkRead()
+        {
+
+        }
+
+        public async void MarkFavorite()
+        {
+
         }
     }
 }

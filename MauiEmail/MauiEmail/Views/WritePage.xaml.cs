@@ -36,11 +36,17 @@ public partial class WritePage : ContentPage
     private async void Send_Button_Clicked(object sender, EventArgs e)
     {
         _observableMessage.To.Add(new MailboxAddress("Vince McTosh", emailAddress));
-        MimeMessage msg = _observableMessage.ToMime();
-        //await SendAndRetrieveClientStartSession();
-        await _emailService.SendMessageAsync(msg);
-        //await SendAndRetrieveClientDisconnect();
-        await DisplayAlert("Email sent", $"Your email has been sent!", "Ok");
+        MimeMessage msg = _observableMessage.ToMime(); 
+        try
+        {
+            await _emailService.SendMessageAsync(msg);
+            await DisplayAlert("Email sent", $"Your email has been sent!", "Ok");
+        }
+        catch
+        {
+            await DisplayAlert("Error", $"Your email could not be sent. Please try again.", "Ok");
+        }
+
         await Navigation.PopAsync();
     }
 

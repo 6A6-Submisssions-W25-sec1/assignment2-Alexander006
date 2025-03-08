@@ -18,24 +18,32 @@ namespace MauiEmail.Models
     public class ObservableMessage : INotifyPropertyChanged
     {
         private IMailConfig mailConfig;
-        public UniqueId? UniqueId { get; set; }
-        public DateTimeOffset Date { get; set; }
+        public UniqueId? UniqueId { get;  }
+        public DateTimeOffset Date { get; }
         public string Subject { get; set; }
         public string? Body { get; set; }
-        public string? HtmlBody { get; set; }
+        public string? HtmlBody { get; }
         public MailboxAddress From { get; set; }
         public List<MailboxAddress> To { get; set; }
         public bool IsRead { get; set; }
         public bool IsFavorite { get; set; }
 
+        /// <summary>
+        /// ObservableMessage configuration to write an email to
+        /// </summary>
+        /// <param name="config"></param>
         public ObservableMessage(IMailConfig config) 
         { 
             mailConfig = config;
             Date = DateTime.Now;
             To = new List<MailboxAddress>();
-            From = new MailboxAddress("Vince McMahon", mailConfig.EmailAddress);
+            From = new MailboxAddress("Vince McMahon", mailConfig.EmailAddress);            
         }
 
+        /// <summary>
+        /// ObservableMessage configuration to read an email using the IMessage interface
+        /// </summary>
+        /// <param name="message"></param>
         public ObservableMessage(IMessageSummary message)
         {
             UniqueId = message.UniqueId;
@@ -43,12 +51,17 @@ namespace MauiEmail.Models
             Subject = message.NormalizedSubject;
             Body = message.PreviewText;
             HtmlBody = message.HtmlBody?.ToString();
-            From = (MailboxAddress)message.Envelope.From[0];            
-            To = (List<MailboxAddress>) message.Envelope.To.Mailboxes;
-            IsRead = (message.Flags == MessageFlags.Seen);
-            IsFavorite = false;
+            From = (MailboxAddress)message.Envelope.From[0];
+            var mailboxes = message.Envelope.To.Mailboxes;
+            To = new List<MailboxAddress>(mailboxes);
+            IsRead = (message.Flags == MessageFlags.Seen);            
         }
 
+        /// <summary>
+        /// ObservableMessage configuration to read an email using MimeMessage
+        /// </summary>
+        /// <param name="mimeMessage"></param>
+        /// <param name="uniqueId"></param>
         public ObservableMessage(MimeMessage mimeMessage, UniqueId uniqueId)
         {
             UniqueId = uniqueId;
@@ -81,10 +94,14 @@ namespace MauiEmail.Models
             };            
             mimeMessage.From.Add(From);
             mimeMessage.To.Add(address);
-
+            
             return mimeMessage;
         }
 
+        /// <summary>
+        /// Forwards an email to another user
+        /// </summary>
+        /// <returns></returns>
         public EmailMessage GetForward()
         {
             return null;

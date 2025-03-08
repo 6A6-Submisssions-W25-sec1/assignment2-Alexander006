@@ -73,7 +73,6 @@ public partial class InboxPage : ContentPage, INotifyPropertyChanged
         {
             await SendAndRetrieveClientStartSession();
             await DownloadCurrentInbox();
-            //await SendAndRetrieveClientDisconnect();
         }
         catch (Exception ex)
         {

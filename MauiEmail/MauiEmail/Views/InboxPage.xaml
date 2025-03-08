@@ -8,7 +8,7 @@
         <SearchBar Placeholder="Search mail" HorizontalTextAlignment="Start" HorizontalOptions="FillAndExpand" HeightRequest="30" Margin="100,0,20,0"/>
         <Button Text="Compose" Clicked="Button_Clicked" HorizontalOptions="Start"/>        
         <Label Text="Inbox" HorizontalTextAlignment="Center" FontSize="Medium" Margin="0,15,0,0"/>
-        <CollectionView Margin="100,30,20,10" ItemsSource="{Binding Inbox3}" Background="{AppThemeBinding Dark=Black, Light=#e8e8e8}" HeightRequest="600">
+        <CollectionView Margin="100,30,20,10" ItemsSource="{Binding Inbox}" Background="{AppThemeBinding Dark=Black, Light=#e8e8e8}" HeightRequest="600">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <SwipeView>
