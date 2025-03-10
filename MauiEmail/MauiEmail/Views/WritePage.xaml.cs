@@ -15,7 +15,7 @@ public partial class WritePage : ContentPage
 	{
 		InitializeComponent();
         _emailService = emailService;
-		_observableMessage = new ObservableMessage(InboxPage.ConfigureMail());
+		_observableMessage = new ObservableMessage(App.MailConfig);
 	}
 
     private void To_TextChanged(object sender, TextChangedEventArgs e)

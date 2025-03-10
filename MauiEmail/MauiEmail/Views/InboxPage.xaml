@@ -30,7 +30,6 @@
                                     <FontImageSource Glyph="🗑" FontFamily="FontAwesome" Size="20"/>
                                 </SwipeItem.IconImageSource>
                             </SwipeItem>
-
                         </SwipeView.RightItems>
 
 
@@ -45,8 +44,7 @@
                                         <VerticalStackLayout HorizontalOptions="FillAndExpand">
                                             <Label Text="{Binding Subject}" FontSize="Medium"/>
                                             <Label Text="{Binding Body}" FontSize="Medium"  />
-                                        </VerticalStackLayout>
-                                        <Label Text="Favorite" FontSize="Small" HorizontalTextAlignment="End"/>
+                                        </VerticalStackLayout>                                        
                                     </HorizontalStackLayout>
                                 </Grid>
                             </Border>

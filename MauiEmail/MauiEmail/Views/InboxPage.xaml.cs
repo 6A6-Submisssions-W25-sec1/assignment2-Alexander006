@@ -11,7 +11,7 @@ namespace MauiEmail.Views;
 
 public partial class InboxPage : ContentPage, INotifyPropertyChanged
 {
-    private IEmailService _emailService;
+
     private ObservableCollection<ObservableMessage> _inbox;
 
 	public InboxPage()
@@ -19,8 +19,8 @@ public partial class InboxPage : ContentPage, INotifyPropertyChanged
 		InitializeComponent();
         try
         {
-            _emailService = new EmailService(ConfigureMail());
-            Task.Run(async () => { await AuthenticateBothClients(); });           
+            //Task.Run(async () => { await AuthenticateBothClients(); });
+            AuthenticateBothClients();
             BindingContext = this;
         }
         catch
@@ -43,35 +43,12 @@ public partial class InboxPage : ContentPage, INotifyPropertyChanged
 
     private async Task DownloadCurrentInbox()
     {
-        var inboxes = await _emailService.DownloadAllEmailsAsync();
-        var inboxesObservableMessage = await _emailService.FetchAllMessages();
+        var inboxes = await App.EmailService.DownloadAllEmailsAsync();
+        var inboxesObservableMessage = await App.EmailService.FetchAllMessages();
         Inbox = new ObservableCollection<ObservableMessage>(inboxesObservableMessage);
     }
 
-	public static IMailConfig ConfigureMail()
-	{
-		IMailConfig mailConfig = new MailConfig();
-        
-        //Email address used
-        mailConfig.EmailAddress = "vmcmahon688@gmail.com";
-        mailConfig.Password = "mofk jbuz jlpz twfc";
 
-        //Receive from client (To User "Cool Gamer")
-        mailConfig.ReceiveHost = "imap.gmail.com";
-        mailConfig.RecieveSocketOptions = SecureSocketOptions.SslOnConnect;
-        mailConfig.ReceivePort = 993;
-
-        //Send to (From this console as Cool Gamer)
-        mailConfig.SendHost = "smtp.gmail.com";
-        mailConfig.SendSocketOption = SecureSocketOptions.StartTls;
-        mailConfig.SendPort = 587;
-
-        //Real Email
-        mailConfig.SenderEmailAddress = "aburlecp@gmail.com";
-        mailConfig.SenderPassword = "sxxb gdei ddmf unzp";
-
-        return mailConfig;
-	}
 
     public async Task AuthenticateBothClients()
     {
@@ -90,8 +67,8 @@ public partial class InboxPage : ContentPage, INotifyPropertyChanged
     {
         try
         {
-            await _emailService.StartSendClientAsync();
-            await _emailService.StartRetreiveClientAsync();
+            await App.EmailService.StartSendClientAsync();
+            await App.EmailService.StartRetreiveClientAsync();
         }
         catch (Exception e)
         {
@@ -101,8 +78,8 @@ public partial class InboxPage : ContentPage, INotifyPropertyChanged
 
     private async Task SendAndRetrieveClientDisconnect()
     {
-        await _emailService.DisconnectSendClientAsync();
-        await _emailService.DisconnectRetreiveClientAsync();
+        await App.EmailService.DisconnectSendClientAsync();
+        await App.EmailService.DisconnectRetreiveClientAsync();
     }
 
     private void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
@@ -114,6 +91,9 @@ public partial class InboxPage : ContentPage, INotifyPropertyChanged
 
             ViewMessage(email);
         }
+
+        //var swipe = (sender as SwipeItem);
+        //ObservableMessage item = swipe.BindingContext as ObservableMessage;
     }
 
     private async void ViewMessage(ObservableMessage message)
@@ -123,16 +103,19 @@ public partial class InboxPage : ContentPage, INotifyPropertyChanged
 
     private async void Button_Clicked(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new WritePage(_emailService));       
+        await Navigation.PushAsync(new WritePage(App.EmailService));       
     }
 
     private void Favorite_SwipeItem_Invoked(object sender, EventArgs e)
     {
+        //var swipe = (sender as SwipeItem);
+        //ObservableMessage item = swipe.BindingContext as ObservableMessage;
 
     }
 
     private void Delete_SwipeItem_Invoked(object sender, EventArgs e)
     {
-
+        //var swipe = (sender as SwipeItem);
+        //ObservableMessage item = swipe.BindingContext as ObservableMessage;
     }
 }

@@ -9,7 +9,7 @@ using System.Collections.ObjectModel;
 namespace MauiEmail.Views;
 
 public partial class ReadPage : ContentPage
-{
+{    
     private ObservableMessage _observableMessage { get; set; }
 
     public ReadPage(ObservableMessage message)

@@ -34,6 +34,13 @@ namespace MauiEmail.Services
             this.mailConfig = mailConfig;
             imapClient = new ImapClient();
             smtpClient = new SmtpClient();
+            // Disable SSL validation on Android
+            if (DeviceInfo.Platform == DevicePlatform.Android)
+            {
+                imapClient.ServerCertificateValidationCallback = (s, c, h, e) => true;
+                smtpClient.ServerCertificateValidationCallback = (s, c, h, e) => true;
+            }
+
         }
 
         /// <summary>
@@ -184,7 +191,7 @@ namespace MauiEmail.Services
                 observableMessages.Add(new ObservableMessage(summary));
             }
 
-            return observableMessages;
+            return observableMessages.Reverse();
         }
 
         /// <summary>
