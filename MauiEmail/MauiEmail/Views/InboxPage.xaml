@@ -5,9 +5,11 @@
     
     <VerticalStackLayout BackgroundColor="Transparent">
         <SearchBar Placeholder="Search mail" HorizontalTextAlignment="Start" HorizontalOptions="FillAndExpand" HeightRequest="30" />
-        <Button Text="Compose" Clicked="Button_Clicked" HorizontalOptions="Start"/>        
+              
         <Label Text="Inbox" HorizontalTextAlignment="Center" FontSize="Medium" Margin="0,15,0,0"/>
-        
+
+        <Grid>
+
         <CollectionView Margin="5,30,5,0" ItemsSource="{Binding Inbox}" Background="{AppThemeBinding Dark=Black, Light=#e8e8e8}" HeightRequest="600">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
@@ -45,13 +47,17 @@
                                             <Label Text="{Binding Body}" FontSize="14"  />
                                         </VerticalStackLayout>                                        
                                     </HorizontalStackLayout>
+                                                                       
                                 </Grid>
-                            </Border>
-                                                            
+                            </Border>                                                            
                         </SwipeView.Content>
                     </SwipeView>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
+        
+            <!-- Button positioned on top of CollectionView -->
+            <Button Text="Compose" Clicked="Button_Clicked" Padding="10"  HorizontalOptions="End"  VerticalOptions="Start" ZIndex="1"/>
+        </Grid>
     </VerticalStackLayout>        
 </ContentPage>
