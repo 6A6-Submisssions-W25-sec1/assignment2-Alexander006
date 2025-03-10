@@ -32,9 +32,9 @@ namespace MauiEmail.Models
         /// ObservableMessage configuration to write an email to
         /// </summary>
         /// <param name="config"></param>
-        public ObservableMessage(IMailConfig config) 
-        { 
-            mailConfig = config;
+        public ObservableMessage() 
+        {
+            mailConfig = App.MailConfig;
             Date = DateTime.Now;
             To = new List<MailboxAddress>();
             From = new MailboxAddress("Vince McMahon", mailConfig.EmailAddress);            
@@ -94,7 +94,7 @@ namespace MauiEmail.Models
             };            
             mimeMessage.From.Add(From);
             mimeMessage.To.Add(address);
-            
+                     
             return mimeMessage;
         }
 

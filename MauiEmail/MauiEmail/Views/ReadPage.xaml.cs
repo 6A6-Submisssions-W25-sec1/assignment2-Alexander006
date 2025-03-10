@@ -16,6 +16,7 @@ public partial class ReadPage : ContentPage
 	{
 		InitializeComponent();
         _observableMessage = message;
+        _observableMessage.IsRead = true;
         BindingContext = _observableMessage;
     }
 }

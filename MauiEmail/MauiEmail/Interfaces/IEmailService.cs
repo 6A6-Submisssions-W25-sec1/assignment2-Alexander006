@@ -25,6 +25,9 @@ namespace MauiEmail.Model.Interfaces
         Task DeleteMessageAsync(UniqueId uniqueId);
 
         //Observable messages
-        Task<IEnumerable<ObservableMessage>?> FetchAllMessages();        
+        Task<IEnumerable<ObservableMessage>?> FetchAllMessages();
+
+        public void MarkRead(UniqueId uniqueId);
+        public void MarkFavorite(UniqueId uniqueId);
     }
 }

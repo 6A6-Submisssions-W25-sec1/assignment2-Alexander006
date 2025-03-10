@@ -110,12 +110,14 @@ public partial class InboxPage : ContentPage, INotifyPropertyChanged
     {
         var swipe = (sender as SwipeItem);
         ObservableMessage item = swipe.BindingContext as ObservableMessage;
+        item.IsFavorite = true;
+        App.EmailService.MarkFavorite(item.UniqueId);
     }
 
     private async void Delete_SwipeItem_Invoked(object sender, EventArgs e)
     {
         var swipe = (sender as SwipeItem);
-        ObservableMessage item = swipe.BindingContext as ObservableMessage;
+        ObservableMessage item = swipe.BindingContext as ObservableMessage;       
         await App.EmailService.DeleteMessageAsync(item.UniqueId);
         await DisplayAlert("Email Delete", $"Your email has been deleted.", "Ok");
     }

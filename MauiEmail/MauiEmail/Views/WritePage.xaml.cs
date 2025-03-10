@@ -10,12 +10,13 @@ public partial class WritePage : ContentPage
 	private ObservableMessage _observableMessage { get; set; }
     private IEmailService _emailService;
     private string emailAddress { get;set; }
+    private MailboxAddress _myEmail { get; set; }
 
 	public WritePage(IEmailService emailService)
 	{
 		InitializeComponent();
         _emailService = emailService;
-		_observableMessage = new ObservableMessage(App.MailConfig);
+		_observableMessage = new ObservableMessage();
 	}
 
     private void To_TextChanged(object sender, TextChangedEventArgs e)

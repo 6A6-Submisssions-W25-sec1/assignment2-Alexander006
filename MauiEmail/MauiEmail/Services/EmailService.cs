@@ -207,9 +207,10 @@ namespace MauiEmail.Services
         /// <summary>
         /// Marks an email as their favorites
         /// </summary>
-        public async void MarkFavorite()
+        public void MarkFavorite(UniqueId uniqueId)
         {
-
+            var folder = imapClient.Inbox;
+            folder.StoreAsync(uniqueId, new StoreFlagsRequest(StoreAction.Add, MessageFlags.Flagged) { Silent = true });
         }
     }
 }
