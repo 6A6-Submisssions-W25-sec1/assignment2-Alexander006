@@ -58,7 +58,7 @@ namespace MauiEmail.Services
                 Console.WriteLine("Deleting email....");
                 await folder.OpenAsync(FolderAccess.ReadWrite);
 
-                await folder.StoreAsync((int)uniqueId.Id - 1, new StoreFlagsRequest(StoreAction.Add, MessageFlags.Deleted) { Silent = true });
+                await folder.StoreAsync(uniqueId, new StoreFlagsRequest(StoreAction.Add, MessageFlags.Deleted) { Silent = true });
                 await folder.ExpungeAsync();
             }
             catch (Exception e)

@@ -32,13 +32,12 @@
                             </SwipeItem>
                         </SwipeView.RightItems>
 
-
                         <SwipeView.Content>
                             <Border BackgroundColor="{AppThemeBinding Dark=#333333, Light=WhiteSmoke}" Padding="30" Stroke="Aquamarine" Grid.ColumnSpan="3" >
                                 <Grid>
                                     <Grid.GestureRecognizers>
                                         <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
-                                    </Grid.GestureRecognizers>                               
+                                    </Grid.GestureRecognizers>         
                                 
                                     <HorizontalStackLayout>
                                         <VerticalStackLayout HorizontalOptions="FillAndExpand">

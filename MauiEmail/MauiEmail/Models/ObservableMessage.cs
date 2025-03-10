@@ -18,7 +18,7 @@ namespace MauiEmail.Models
     public class ObservableMessage : INotifyPropertyChanged
     {
         private IMailConfig mailConfig;
-        public UniqueId? UniqueId { get;  }
+        public UniqueId UniqueId { get;  }
         public DateTimeOffset Date { get; }
         public string Subject { get; set; }
         public string? Body { get; set; }

@@ -106,16 +106,17 @@ public partial class InboxPage : ContentPage, INotifyPropertyChanged
         await Navigation.PushAsync(new WritePage(App.EmailService));       
     }
 
-    private void Favorite_SwipeItem_Invoked(object sender, EventArgs e)
+    private async void Favorite_SwipeItem_Invoked(object sender, EventArgs e)
     {
-        //var swipe = (sender as SwipeItem);
-        //ObservableMessage item = swipe.BindingContext as ObservableMessage;
-
+        var swipe = (sender as SwipeItem);
+        ObservableMessage item = swipe.BindingContext as ObservableMessage;
     }
 
-    private void Delete_SwipeItem_Invoked(object sender, EventArgs e)
+    private async void Delete_SwipeItem_Invoked(object sender, EventArgs e)
     {
-        //var swipe = (sender as SwipeItem);
-        //ObservableMessage item = swipe.BindingContext as ObservableMessage;
+        var swipe = (sender as SwipeItem);
+        ObservableMessage item = swipe.BindingContext as ObservableMessage;
+        await App.EmailService.DeleteMessageAsync(item.UniqueId);
+        await DisplayAlert("Email Delete", $"Your email has been deleted.", "Ok");
     }
 }
