@@ -36,13 +36,23 @@
 
                         <SwipeView.Content>
                             <Border BackgroundColor="{AppThemeBinding Dark=#333333, Light=WhiteSmoke}" Padding="30" Stroke="Aquamarine" Grid.ColumnSpan="3" >
+
+                                
                                 <Grid>
-                                    <Grid.GestureRecognizers>
-                                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
+                                    <Grid.GestureRecognizers>                                        
+                                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
                                     </Grid.GestureRecognizers>         
                                 
                                     <HorizontalStackLayout>
-                                        <VerticalStackLayout >
+                                            <Border BackgroundColor="Blue"  StrokeThickness="2"
+                                                    HeightRequest="40" WidthRequest="40">                                                
+                                                <Border.StrokeShape>
+                                                    <RoundRectangle CornerRadius="20"/>
+                                                </Border.StrokeShape>
+
+                                                <Label Text="{Binding From, StringFormat='D'}" HorizontalTextAlignment="Center" FontSize="25"/>
+                                            </Border>
+                                            <VerticalStackLayout >
                                             <Label Text="{Binding Subject}" FontSize="18"/>
                                             <Label Text="{Binding Body}" FontSize="14"  />
                                         </VerticalStackLayout>                                        

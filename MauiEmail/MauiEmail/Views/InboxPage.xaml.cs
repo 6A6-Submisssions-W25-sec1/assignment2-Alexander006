@@ -41,6 +41,14 @@ public partial class InboxPage : ContentPage, INotifyPropertyChanged
         }
     }
 
+    public string FirstChar
+    {
+        get
+        {
+            return _inbox.Select(s => s.From).First().ToString().Substring(0, 0);
+        }
+    }
+
     private async Task DownloadCurrentInbox()
     {
         var inboxes = await App.EmailService.DownloadAllEmailsAsync();
