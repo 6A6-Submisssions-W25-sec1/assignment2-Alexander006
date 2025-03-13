@@ -4,7 +4,7 @@
              x:Class="MauiEmail.Views.InboxPage">
     
     <VerticalStackLayout BackgroundColor="Transparent">
-        <SearchBar Placeholder="Search mail" HorizontalTextAlignment="Start" HorizontalOptions="FillAndExpand" HeightRequest="30" />
+        <SearchBar HandlerChanging="SearchBar_HandlerChanging" HandlerChanged="SearchBar_HandlerChanged" Placeholder="Search mail" HorizontalTextAlignment="Start" HorizontalOptions="FillAndExpand" HeightRequest="30" />
               
         <Label Text="Inbox" HorizontalTextAlignment="Center" FontSize="Medium" Margin="0,15,0,0"/>
 
@@ -50,7 +50,7 @@
                                                     <RoundRectangle CornerRadius="20"/>
                                                 </Border.StrokeShape>
 
-                                                <Label Text="{Binding From, StringFormat='D'}" HorizontalTextAlignment="Center" FontSize="25"/>
+                                                <Label Text="{Binding From}" HorizontalTextAlignment="Center" FontSize="25"/>
                                             </Border>
                                             <VerticalStackLayout >
                                             <Label Text="{Binding Subject}" FontSize="18"/>

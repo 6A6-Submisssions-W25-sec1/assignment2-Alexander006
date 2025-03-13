@@ -129,4 +129,17 @@ public partial class InboxPage : ContentPage, INotifyPropertyChanged
         await App.EmailService.DeleteMessageAsync(item.UniqueId);
         await DisplayAlert("Email Delete", $"Your email has been deleted.", "Ok");
     }
+
+    private void SearchBar_HandlerChanging(object sender, HandlerChangingEventArgs e)
+    {
+       Inbox.Where(i => i.Subject.Contains(" ")).ToList();
+    }
+
+    private void SearchBar_HandlerChanged(object sender, EventArgs e)
+    {
+        var text = sender as SearchBar;              
+        //var list = Inbox.Where(i => i.Subject.Contains(text.Text)).ToList();
+
+        //Inbox = list as  ObservableCollection<ObservableMessage>;
+    }
 }
