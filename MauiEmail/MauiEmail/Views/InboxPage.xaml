@@ -4,7 +4,7 @@
              x:Class="MauiEmail.Views.InboxPage">
     
     <VerticalStackLayout BackgroundColor="Transparent">
-        <SearchBar HandlerChanging="SearchBar_HandlerChanging" HandlerChanged="SearchBar_HandlerChanged" Placeholder="Search mail" HorizontalTextAlignment="Start" HorizontalOptions="FillAndExpand" HeightRequest="30" />
+        <SearchBar x:Name="InboxSearchBar" TextChanged="SearchBar_TextChanged" Placeholder="Search mail" HorizontalTextAlignment="Start" HorizontalOptions="FillAndExpand" HeightRequest="30" />
               
         <Label Text="Inbox" HorizontalTextAlignment="Center" FontSize="Medium" Margin="0,15,0,0"/>
 

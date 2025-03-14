@@ -13,15 +13,16 @@ public partial class InboxPage : ContentPage, INotifyPropertyChanged
 {
 
     private ObservableCollection<ObservableMessage> _inbox;
+    private ObservableCollection<ObservableMessage> _allInboxes;
 
-	public InboxPage()
+    public InboxPage()
 	{
 		InitializeComponent();
         try
         {
             //Task.Run(async () => { await AuthenticateBothClients(); });
             AuthenticateBothClients();
-            BindingContext = this;
+            BindingContext = this;            
         }
         catch
         {
@@ -37,7 +38,7 @@ public partial class InboxPage : ContentPage, INotifyPropertyChanged
         }
         set 
         { 
-            _inbox = value; 
+            _inbox = value;            
         }
     }
 
@@ -53,6 +54,7 @@ public partial class InboxPage : ContentPage, INotifyPropertyChanged
     {
         var inboxes = await App.EmailService.DownloadAllEmailsAsync();
         var inboxesObservableMessage = await App.EmailService.FetchAllMessages();
+        _allInboxes = new ObservableCollection<ObservableMessage>(inboxesObservableMessage);
         Inbox = new ObservableCollection<ObservableMessage>(inboxesObservableMessage);
     }
 
@@ -99,9 +101,6 @@ public partial class InboxPage : ContentPage, INotifyPropertyChanged
 
             ViewMessage(email);
         }
-
-        //var swipe = (sender as SwipeItem);
-        //ObservableMessage item = swipe.BindingContext as ObservableMessage;
     }
 
     private async void ViewMessage(ObservableMessage message)
@@ -128,18 +127,31 @@ public partial class InboxPage : ContentPage, INotifyPropertyChanged
         ObservableMessage item = swipe.BindingContext as ObservableMessage;       
         await App.EmailService.DeleteMessageAsync(item.UniqueId);
         await DisplayAlert("Email Delete", $"Your email has been deleted.", "Ok");
+        await UpdateView();
     }
 
-    private void SearchBar_HandlerChanging(object sender, HandlerChangingEventArgs e)
+    private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
     {
-       Inbox.Where(i => i.Subject.Contains(" ")).ToList();
+        try
+        {
+            var text = e.NewTextValue;
+            var list = Inbox.Where(i => i.Subject.ToLower().Contains(text.ToLower())).Select(s => s).ToList();
+
+
+            if (text == "")
+            {
+                Inbox = _allInboxes;
+            }
+            else
+            {
+                Inbox = new ObservableCollection<ObservableMessage>(list);
+            }           
+        }
+        catch { }
     }
 
-    private void SearchBar_HandlerChanged(object sender, EventArgs e)
+    private async Task UpdateView()
     {
-        var text = sender as SearchBar;              
-        //var list = Inbox.Where(i => i.Subject.Contains(text.Text)).ToList();
-
-        //Inbox = list as  ObservableCollection<ObservableMessage>;
+        await DownloadCurrentInbox();
     }
 }
