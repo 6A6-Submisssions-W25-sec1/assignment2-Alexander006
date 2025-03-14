@@ -44,6 +44,53 @@ namespace MauiEmail.Services
         }
 
         /// <summary>
+        /// Sends a message to the client
+        /// </summary>
+        /// <param name="message">Message containing the subject, date, body etc....</param>
+        /// <returns></returns>
+        /// <exception cref="Exception">Thrown when there were some issues with authentication</exception>
+        public async Task SendMessageAsync(MimeMessage message)
+        {
+            try
+            {
+                message.From.Add(new MailboxAddress("Vince McMahon", mailConfig.EmailAddress));
+
+                if (smtpClient.IsConnected && smtpClient.IsAuthenticated)
+                {
+                    await smtpClient.SendAsync(message);
+                }
+                else
+                {
+                    throw new Exception("Receipient authentication or connection failed!");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+        }
+
+        public async Task<IEnumerable<ObservableMessage>?> SearchMessageAsync(string content)
+        {
+            ObservableCollection<ObservableMessage> observableMessages = new ObservableCollection<ObservableMessage>();
+
+            var inbox = imapClient.Inbox;
+            await inbox.OpenAsync(FolderAccess.ReadOnly);
+
+            //Get only the required items
+            var summaries = await inbox.FetchAsync(0, -1, MessageSummaryItems.UniqueId);
+
+
+            foreach (IMessageSummary summary in summaries)
+            {
+                observableMessages.Add(new ObservableMessage(summary));
+            }
+
+            return observableMessages.Reverse();
+        }
+
+        /// <summary>
         /// Deletes a message from the user's _inbox
         /// </summary>
         /// <param name="uid">Uid of the email</param>
@@ -68,49 +115,68 @@ namespace MauiEmail.Services
         }
 
         /// <summary>
-        /// Sends a message to the client
+        /// Retrieves all the emails asynchronously
         /// </summary>
-        /// <param name="message">Message containing the subject, date, body etc....</param>
         /// <returns></returns>
-        /// <exception cref="Exception">Thrown when there were some issues with authentication</exception>
-        public async Task SendMessageAsync(MimeMessage message)
+        public async Task<IEnumerable<MimeMessage>> DownloadAllEmailsAsync()
         {
-            try
-            {
-                message.From.Add(new MailboxAddress("Vince McMahon", mailConfig.EmailAddress));                
+            List<MimeMessage> messages = new List<MimeMessage>();
 
-                if (smtpClient.IsConnected && smtpClient.IsAuthenticated)
-                {                    
-                    await smtpClient.SendAsync(message);
-                }
-                else
-                {
-                    throw new Exception("Receipient authentication or connection failed!");
-                }
-            }
-            catch (Exception ex)
+            var inbox = imapClient.Inbox;
+            await inbox.OpenAsync(FolderAccess.ReadOnly);
+
+
+            for (int i = 0; i < inbox.Count; i++)
             {
-                throw new Exception(ex.Message);
+                var message = await inbox.GetMessageAsync(i);
+                messages.Add(message);
             }
 
+            return messages;
+        }
+
+        public async Task<IEnumerable<ObservableMessage>?> FetchAllMessages()
+        {
+            ObservableCollection<ObservableMessage> observableMessages = new ObservableCollection<ObservableMessage>();
+
+            var inbox = imapClient.Inbox;
+            await inbox.OpenAsync(FolderAccess.ReadOnly);
+
+            //Get only the required items
+            var summaries = await inbox.FetchAsync(0, -1, MessageSummaryItems.UniqueId |
+                                               MessageSummaryItems.Envelope |
+                                               MessageSummaryItems.Flags |
+                                               MessageSummaryItems.InternalDate |
+                                               MessageSummaryItems.Body |
+                                               MessageSummaryItems.PreviewText
+                                               );
+
+
+            foreach (IMessageSummary summary in summaries)
+            {
+                observableMessages.Add(new ObservableMessage(summary));
+            }
+
+            return observableMessages.Reverse();
         }
 
         /// <summary>
-        /// Disconnects the receiving client session.
+        /// Marks an email read
         /// </summary>
-        /// <returns></returns>
-        public async Task DisconnectRetreiveClientAsync()
+        /// <param name="uniqueId"></param>
+        public void MarkRead(UniqueId uniqueId)
         {
-            await imapClient.DisconnectAsync(true);
+            var folder = imapClient.Inbox;
+            folder.StoreAsync(uniqueId, new StoreFlagsRequest(StoreAction.Add, MessageFlags.Seen) { Silent = true });
         }
 
         /// <summary>
-        /// Disconnects the sending client session.
+        /// Marks an email as their favorites
         /// </summary>
-        /// <returns></returns>
-        public async Task DisconnectSendClientAsync()
+        public void MarkFavorite(UniqueId uniqueId)
         {
-            await imapClient.DisconnectAsync(true);
+            var folder = imapClient.Inbox;
+            folder.StoreAsync(uniqueId, new StoreFlagsRequest(StoreAction.Add, MessageFlags.Flagged) { Silent = true });
         }
 
         /// <summary>
@@ -149,68 +215,21 @@ namespace MauiEmail.Services
         }
 
         /// <summary>
-        /// Retrieves all the emails asynchronously
+        /// Disconnects the receiving client session.
         /// </summary>
         /// <returns></returns>
-        public async Task<IEnumerable<MimeMessage>> DownloadAllEmailsAsync()
+        public async Task DisconnectRetreiveClientAsync()
         {
-            List<MimeMessage> messages = new List<MimeMessage>();
-
-            var inbox = imapClient.Inbox;
-            await inbox.OpenAsync(FolderAccess.ReadOnly);
-
-
-            for (int i = 0; i < inbox.Count; i++)
-            {
-                var message = await inbox.GetMessageAsync(i);
-                messages.Add(message);
-            }
-
-            return messages;
-        }
-
-        public async Task<IEnumerable<ObservableMessage>?> FetchAllMessages()
-        {            
-            ObservableCollection<ObservableMessage> observableMessages = new ObservableCollection<ObservableMessage>();
-
-            var inbox = imapClient.Inbox;
-            await inbox.OpenAsync(FolderAccess.ReadOnly);
-            
-            //Get only the required items
-            var summaries = await inbox.FetchAsync(0, -1, MessageSummaryItems.UniqueId |
-                                               MessageSummaryItems.Envelope |
-                                               MessageSummaryItems.Flags |
-                                               MessageSummaryItems.InternalDate|
-                                               MessageSummaryItems.Body |
-                                               MessageSummaryItems.PreviewText
-                                               );
-
-                        
-            foreach(IMessageSummary summary in summaries)
-            {  
-                observableMessages.Add(new ObservableMessage(summary));
-            }
-
-            return observableMessages.Reverse();
+            await imapClient.DisconnectAsync(true);
         }
 
         /// <summary>
-        /// Marks an email read
+        /// Disconnects the sending client session.
         /// </summary>
-        /// <param name="uniqueId"></param>
-        public void MarkRead(UniqueId uniqueId)
+        /// <returns></returns>
+        public async Task DisconnectSendClientAsync()
         {
-            var folder = imapClient.Inbox;
-            folder.StoreAsync(uniqueId, new StoreFlagsRequest(StoreAction.Add, MessageFlags.Seen) { Silent = true });
-        }
-
-        /// <summary>
-        /// Marks an email as their favorites
-        /// </summary>
-        public void MarkFavorite(UniqueId uniqueId)
-        {
-            var folder = imapClient.Inbox;
-            folder.StoreAsync(uniqueId, new StoreFlagsRequest(StoreAction.Add, MessageFlags.Flagged) { Silent = true });
+            await imapClient.DisconnectAsync(true);
         }
     }
 }

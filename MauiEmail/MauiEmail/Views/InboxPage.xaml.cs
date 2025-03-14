@@ -52,7 +52,6 @@ public partial class InboxPage : ContentPage, INotifyPropertyChanged
 
     private async Task DownloadCurrentInbox()
     {
-        var inboxes = await App.EmailService.DownloadAllEmailsAsync();
         var inboxesObservableMessage = await App.EmailService.FetchAllMessages();
         _allInboxes = new ObservableCollection<ObservableMessage>(inboxesObservableMessage);
         Inbox = new ObservableCollection<ObservableMessage>(inboxesObservableMessage);

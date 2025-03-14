@@ -19,14 +19,14 @@ namespace MauiEmail.Model.Interfaces
         Task StartRetreiveClientAsync();
         Task DisconnectRetreiveClientAsync();
 
-        // Emailing functionality
+        // Emailing functionality and Observable messages
         Task SendMessageAsync(MimeMessage message);
-        Task<IEnumerable<MimeMessage>> DownloadAllEmailsAsync();
-        Task DeleteMessageAsync(UniqueId uniqueId);
-
-        //Observable messages
         Task<IEnumerable<ObservableMessage>?> FetchAllMessages();
+        ObservableMessage DownloadMessage(ObservableMessage message);
+        Task DeleteMessageAsync(UniqueId uniqueId);
+        Task<IEnumerable<ObservableMessage>?> SearchMessageAsync(string content);
 
+        //Flags
         public void MarkRead(UniqueId uniqueId);
         public void MarkFavorite(UniqueId uniqueId);
     }
